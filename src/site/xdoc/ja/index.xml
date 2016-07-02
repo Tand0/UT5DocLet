@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="Shift_JIS"?>
+<document 
+    xml:lang="ja"
+	lang="ja"
+	xmlns="http://maven.apache.org/XDOC/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+
+	<properties>
+		<title>単体試験項目表をJUnit/Ant/Javadocで作ろう：おじどうくんUT5</title>
+		<author>Toshikazu Ando.</author>
+	</properties>
+	<body>
+		<section name="単体試験項目表をJUnit/Ant/Javadocで作ろう：おじどうくんUT5">
+		
+<p>
+単体試験項目表をJUnitで作りたいと思いました。<br />
+<br />
+従来でもAntを使用してJunitReportから試験結果一覧を出すことは可能です。<br />
+しかし、この
+<a href="../junitreport/index.html">JUnitReportによるJUnitの結果一覧はこんな感じ</a>
+になります(あるいは<a href="../junitreport-noframe/junit-noframes.html">こんな感じ</a>です)。<br />
+</p>
+<p>
+よく見ましょう。<strong>どこにもJavaDocのコメント</strong>がないのです。<br />
+</p>
+<p>
+<strong>こんなんで単体(テスト)試験項目のレビューができるか馬鹿やろう</strong> (ほらそこ！ 直接テストコードみりゃいいじゃねぇかとか言わない)<br />
+</p>
+<p>
+ということで、
+<a href="../junitreport-noframe/junit-noframes.html">JUnitReportによるJUnitの結果一覧</a>
+にJavadocのコメントをdocletを使って追加するものを作ってみました。<br />
+これでようやくレビューができます。<br />
+これによって出てくる
+<a href="../simple/ut5.html">単体試験項目表はこんな感じ</a>です。コメントが付いていることが確認できますね？<br />
+もっと表一体化している方が良いのであれば
+<a href="../simple/ut5tree.html">単体試験項目表はこんな感じ</a>にでも出力します。
+こちらは画面を目いっぱい広げてからコピーし、excelに張り付けるような用途を想定して作成しています。<br />
+<br />
+さぁ、頑張ってレビューをしましょう。<br />
+</p>
+<p>
+※ ってなんでこの程度のものがネットで探して出てこないんだ……<br />
+※ ちなみに、HTMLがフレームじゃないのは印刷できるようにするためです。<br />
+※ 試験項目表って印刷しないとフレームじゃなくてクレームが来るんだよね。<br />
+</p>
+<p>
+※ なお、気に入らなければソースも置くんで適当に書き換えてください<br />
+</p>
+		
+		</section>
+		
+		<section name="使い方(Antの書き方)">
+
+<p>まずは適当にTestCaseを書いてください。<br />
+テストケース上のJavaDocが今回JUnitレポート出力相当に付きます。</p>
+<source>
+    /**
+     * Hello world test message
+     */
+    @Test
+    public void testHello() {
+        assertTrue(true);
+    }
+</source>
+
+<p>こんな感じでまずJUnitを実行してTEST-*.xmlを出力してください。</p>
+<source>
+  &lt;path id="common.classpath"&gt;
+    &lt;pathelement path="C:\eclipse\plugins\org.hamcrest.core_1.3.0.v201303031735.jar" /&gt;
+    &lt;pathelement path="C:\eclipse\plugins\org.junit_4.12.0.v201504281640/junit.jar" /&gt;
+    &lt;pathelement path="C:\Program Files\Java\jdk1.8.0_77\lib\tools.jar" /&gt;
+    &lt;pathelement location="./classes" /&gt;
+  &lt;/path&gt;
+  &lt;target name="all"&gt;
+    &lt;mkdir dir="./target/" /&gt;
+    &lt;delete dir="./target/junit" /&gt;
+    &lt;mkdir dir="./target/junit" /&gt;
+    &lt;junit printsummary="yes" haltonfailure="no"&gt;
+      &lt;classpath refid="common.classpath" /&gt;
+      &lt;formatter type="xml" /&gt;
+      &lt;batchtest fork="yes" todir="./target/junit"&gt;
+        &lt;fileset dir="./src/test/java"&gt;
+          &lt;include name="**/*Test.java" /&gt;
+        &lt;/fileset&gt;
+      &lt;/batchtest&gt;
+    &lt;/junit&gt;
+</source>
+
+<p>次に、JavaDocを使って単体試験項目表を作成します。<br />
+※当然ですが、これを使うにはこのページからダウンロードしたUT5DocLet.jarが必要です</p>
+<source>
+    &lt;delete dir="./target/ut5" /&gt;
+    &lt;mkdir dir="./target/ut5" /&gt;
+    &lt;javadoc destdir="./target/ut5" encoding="UTF-8" docencoding="UTF-8" additionalparam="-J-Dfile.encoding=UTF-8" charset="UTF-8"&gt;
+      &lt;classpath refid="common.classpath" /&gt;
+      &lt;packageset dir="src/test/java"&gt;
+          &lt;include name="jp/**" /&gt;
+      &lt;/packageset&gt;
+      &lt;doclet name="jp.ruru.park.ando.ut5.UT5Doclet" path="lib/UT5DocLet.jar"&gt;
+        &lt;param name="-junit" value="./target/junit" /&gt;
+      &lt;/doclet&gt;
+    &lt;/javadoc&gt;
+</source>
+
+
+</section>
+
+<section name="書き方(テーブルカラムの変更)">
+
+<p>また、以下のように-junittreeオプションを付けると、
+ツリーの一覧を並び替えることができます。<br />
+並び替えた<a href="../tree/ut5tree.html">サンプルはこちら</a>になります。</p>
+
+<source>
+    &lt;delete dir="./target/ut5" /&gt;
+    &lt;mkdir dir="./target/ut5" /&gt;
+    &lt;javadoc destdir="./target/ut5" encoding="UTF-8" docencoding="UTF-8" additionalparam="-J-Dfile.encoding=UTF-8" charset="UTF-8"&gt;
+      &lt;classpath refid="common.classpath" /&gt;
+      &lt;packageset dir="src/test/java"&gt;
+          &lt;include name="jp/**" /&gt;
+      &lt;/packageset&gt;
+      &lt;doclet name="jp.ruru.park.ando.ut5.UT5Doclet" path="lib/UT5DocLet.jar"&gt;
+        &lt;param name="-junit" value="./target/junit" /&gt;
+        &lt;param name="-junittree" value="abdegh cf r i j tt s nqq l" /&gt;
+      &lt;/doclet&gt;
+    &lt;/javadoc&gt;
+</source>
+
+<p>-junittreeオプションの値は以下の意味を持ちます。</p>
+
+<table width="50%">
+<tr bgcolor="#a6caf0"><th>キー</th><th width="80%">意味</th></tr>
+<tr><td>a</td><td>パッケージ番号</td></tr>
+<tr><td>b</td><td>パッケージ名</td></tr>
+<tr><td>c</td><td>パッケージメッセージ</td></tr>
+<tr><td>d</td><td>クラス番号</td></tr>
+<tr><td>e</td><td>クラス名</td></tr>
+<tr><td>f</td><td>クラスメッセージ</td></tr>
+<tr><td>g</td><td>テストケース番号</td></tr>
+<tr><td>h</td><td>テストケース名</td></tr>
+<tr><td>i</td><td>テストメッセージ</td></tr>
+<tr><td>j</td><td>Status</td></tr>
+<tr><td>k</td><td>TimeStamp</td></tr>
+<tr><td>l</td><td>Time</td></tr>
+<tr><td>m</td><td>Author (JavaDocの@author)</td></tr>
+<tr><td>n</td><td>Version (JavaDocの@version)</td></tr>
+<tr><td>o</td><td>ブランク(パッケージ)</td></tr>
+<tr><td>p</td><td>ブランク(クラス)</td></tr>
+<tr><td>q</td><td>ブランク(テストケース)</td></tr>
+<tr><td>r</td><td>前提条件</td></tr>
+<tr><td>s</td><td>Authorから@以降を除いたもの</td></tr>
+<tr><td>t</td><td>最古のTimeStamp</td></tr>
+<tr><td>u</td><td>最古のTimeStampから時刻を除いたもの</td></tr>
+<tr><td>v</td><td>TimeStampから時刻を除いたもの</td></tr>
+<tr><td>w</td><td>Pass the test code.</td></tr>
+<tr><td>[space]</td><td>無視</td></tr>
+</table>
+
+		</section>
+		
+		<section name="使い方(複雑版)">
+		
+<p>テスト項目表では開始日と終了日を入れたくなることがあります。<br />
+そのような場合は、レポートを日毎単位でフォルダを分けて記載して読み込ませると良いでしょう。<br />
+以下は、日付毎に tstamp anttask を使用して日付毎にレポートを出す例です。</p>
+<source>
+    &lt;tstamp&gt;
+      &lt;format property="DATE" pattern="yyyy-MM-dd" /&gt;
+    &lt;/tstamp&gt;
+
+
+    &lt;delete dir="./target/junitDate/${DATE}" /&gt;
+    &lt;mkdir dir="./target/junitDate/${DATE}" /&gt;
+    &lt;junit printsummary="yes" haltonfailure="no"&gt;
+      &lt;classpath refid="common.classpath" /&gt;
+      &lt;formatter type="xml" /&gt;
+      &lt;batchtest fork="yes" todir="./target/junitDate/${DATE}"&gt;
+        &lt;fileset dir="./src/test/java"&gt;
+          &lt;include name="**/*Test.java" /&gt;
+        &lt;/fileset&gt;
+      &lt;/batchtest&gt;
+    &lt;/junit&gt;
+</source>
+
+
+<p>こちら、もう少し複雑書いた例にになります。<br />
+-junit フォルダは再帰的に見るので./target/junitDate/を見るようにしています。</p>
+
+<source>
+    &lt;javadoc destdir="./src/site"
+      windowtitle="(SAMPLE)DOCLET: JUnit report include JavaDoc"
+      encoding="MS932"
+      docencoding="UTF-8"
+      additionalparam="-J-Dfile.encoding=MS932"
+      locale="en"
+      use="true"
+      defaultexcludes="no"
+      access="private"
+      nodeprecated="true"
+      nodeprecatedlist="true"
+      notree="false"
+      noindex="false"
+      nonavbar="true"
+      nohelp="true"
+      serialwarn="true"
+      failonerror="false"
+      splitindex="true"
+      charset="UTF-8"
+      source="1.8"&gt;
+      &lt;classpath refid="common.classpath" /&gt;
+      &lt;packageset dir="src/test/java" defaultexcludes="yes"&gt;
+        &lt;include name="jp/**" /&gt;
+      &lt;/packageset&gt;
+
+      &lt;doclet name="jp.ruru.park.ando.ut5.UT5Doclet"
+        path="lib/UT5DocLet.jar"&gt;
+        &lt;param name="-junit" value="./target/junitDate" /&gt;
+        &lt;param name="-junittree" value="abdegh cf r i wj vt s nqq l" /&gt;
+      &lt;/doclet&gt;
+      &lt;doctitle&gt;DOCLET: JUnit report include JavaDoc.&lt;/doctitle&gt;
+      &lt;footer&gt;Copyright &amp;#169; 2016 Ando Computer Behavior RandD. All Rights Reserved.&lt;/footer&gt;
+      &lt;link href="http://docs.oracle.com/javase/8/docs/api/" /&gt;
+    &lt;/javadoc&gt;
+</source>
+		
+
+</section>
+
+<section name="変更履歴">
+
+<dl>
+  <dt>Version.1.1.9 :</dt>
+  <dd>
+   <a href="../find/ut5tree.html">FindBugsも単体試験項目表のように</a>してみた。<br />
+   Mavenでドキュメント生成するように修正。<br />
+   JavaDocの stilesheetfile オプションに対応。<br />
+   そろそろgithubに載せたい(が、やりかた忘れた…)。<br />
+   JUnitがどーやってもMaven⇒ant経由で起動できないんだよなぁ…。
+  </dd>
+  
+  <dt>Version.1.1.8 :</dt>
+  <dd>
+   FindBugsでコードチェックしたらいくつか出ていたので修正。
+  </dd>
+
+  <dt>Version.1.1.7 :</dt>
+  <dd>
+   JavaDoc ant task の groupタグに対応。
+  </dd>
+
+
+  <dt>Version.1.1.6 :</dt>
+  <dd>
+   junit指定でフォルダを１階層しか見なかったが、下位の再帰で確認するように修正。<br />
+   同じクラス名のTest-*.xmlがいたら、過去のものをold dateとして管理するように修正。
+  </dd>
+
+
+  <dt>Version.1.1.5 :</dt>
+  <dd>
+   authorを見るときにクラスのチェックが入っていないかったのを修正。<br />
+   テストメソッドと同名の引数付きメソッドがあるときに未チェックだったのを修正。<br />
+   treeの順番を入れ替えられるようにした(javatreeオプションを追加した)
+  </dd>
+  
+  <dt>Version.1.1.4 :</dt>
+  <dd>
+   表示の順番をソートするように変更<br />
+   notreeオプションの動作変更。tee表示として表一体化したものを追加した
+   (notreeを指定すると出力されない/つまりデフォルト出力)
+  </dd>
+  
+  <dt>Version.1.1.3 :</dt>
+  <dd>
+   処理できるオプションにcharsetを追加。<br />
+   処理できるオプションにsourceを追加。<br />
+   処理できるオプションにoverviewを追加。<br />
+   処理できるオプションにnohelpを追加(ただし無視する)。<br />
+   てけとーに英語のページを作ってみた(ソースコードのドキュメントをすべて英語に)。
+  </dd>
+  
+  <dt>Version.1.1.2 :</dt>
+  <dd>
+   footer,bottomタグの付き方が変なので変更。<br />
+   JavaDoc側のソースが存在しないときにNullPointerExceptionが出ていたのを修正。<br />
+   @before,@afterなどのテスト系アノテーションがついたメソッドを項目に追加。<br />
+  </dd>
+  
+  <dt>Version.1.1.1 :</dt>
+  <dd>初版</dd>
+</dl>
+
+</section>
+
+	</body>
+
+</document>

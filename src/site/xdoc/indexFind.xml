@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document
+    xml:lang="en"
+	lang="en"
+	xmlns="http://maven.apache.org/XDOC/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+	<properties>
+		<title>DOCLET: FindBugs report include JavaDoc : Ojido-kun UT5</title>
+		<author>Toshikazu Ando.</author>
+	</properties>
+	<body>
+		<section name="DOCLET: JUnit report include JavaDoc : Ojido-kun UT5">
+		
+		<p>
+I created the FindBugs report for anttask.
+ (<a href="./findbugs.html">Sample1</a>)<br />
+<br />
+But those file are not include JavaDoc ;-)<br />
+<br />
+So I create FindBugs report include JavaDoc using JavaDoclet technology
+(<a href="./find/ut5.html">Sample2</a>,<a href="./find/ut5tree.html">Sample3</a>(Solution)).
+		</p>
+		
+		</section>
+		
+		<section name="How to use">
+
+<p>1st step: create the java source code.</p>
+<source>
+    /**
+     * Hello world message
+     */
+    public void hello() {
+        System.out.println("hello world!");
+    }
+</source>
+
+<p>Next step: write build.xml the following text. (For FindBugs)</p>
+<source>
+    &lt;findbugs home="${findbugs.home}"
+        jvmargs="-Duser.language=en"
+        output="xml"
+        outputFile="./target/findbugs/bcel-fb.xml" &gt;
+       &lt;auxClasspath refid="common.classpath" /&gt;
+       &lt;sourcePath path="./src/main/java" /&gt;
+       &lt;class location="lib/UT5DocLet.jar" /&gt;
+    &lt;/findbugs&gt;
+</source>
+
+<p>Last step: write build.xml the following text. (For output report)</p>
+<source>
+    &lt;delete dir="./target/ut5" /&gt;
+    &lt;mkdir dir="./target/ut5" /&gt;
+    &lt;javadoc destdir="./target/ut5" encoding="MS932" docencoding="MS932" additionalparam="-J-Dfile.encoding=MS932" charset="Shift_JIS"&gt;
+      &lt;classpath refid="common.classpath" /&gt;
+      &lt;packageset dir="src/main/java"&gt;
+          &lt;include name="jp/**" /&gt;
+      &lt;/packageset&gt;
+      &lt;doclet name="jp.ruru.park.ando.ut5.UT5Doclet" path="lib/UT5DocLet.jar"&gt;
+        &lt;param name="-findbugs" value="target/findbugs/bcel-fb.xml" /&gt;
+      &lt;/doclet&gt;
+    &lt;/javadoc&gt;
+</source>
+
+
+</section>
+		
+	</body>
+
+</document>

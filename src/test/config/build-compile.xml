@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="Shift_JIS"?>
+<project name="Automation Project" default="all" basedir="../../..">
+	<target name="all">
+		<delete dir="./target/sample" />
+		<mkdir dir="./target/sample/classes" />
+		<mkdir dir="./target/sample/classes" />
+		<javac srcdir="./src/sample/java" destdir="./target/sample/classes"
+			includeantruntime="true"
+			debug="on" fork="true">
+			<classpath refid="maven.runtime.classpath" />
+		</javac>
+		<jar destfile="./target/UT5DocLet.jar"
+		       basedir="./target/classes"
+		       excludes="**/*Test.class" />
+		<zip destfile="./target/site/UT5DocLet.zip">
+		    <zipfileset dir="./target/" includes="UT5DocLet.jar"/>
+		</zip>
+		<zip destfile="./target/site/UT5DocLet-src.zip">
+		    <zipfileset dir="./src/main/java/" includes="**/*.java"/>
+		</zip>
+	</target>
+</project>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="${project.name}">
+  <bannerLeft>
+    <name>${project.name}</name>
+    <src>./images/image.jpg</src>
+    <href>http://park.ruru.ne.jp/ando/work/</href>
+  </bannerLeft>
+  <body>
+    <links>
+      <item name="${project.name}"
+            href="${project.url}"/>
+      <item name="Ando RandD"
+            href="http://park.ruru.ne.jp/ando/work/" />
+    </links>
+    
+    <menu name="Contents">
+      <item name="UT5 for JUnit"
+            href="./index.html" />
+      <item name="UT5 for FindBugs"
+            href="./indexFind.html" />
+      <item name="UT5 for JUnit (Japanese)"
+            href="./ja/index.html" />
+      <item name="UT5 for FindBugs (Japanese)"
+            href="./ja/indexFind.html" />
+    </menu>
+    
+    <menu name="Download">
+      <item name="${project.name}.zip"
+            href="${project.name}.zip" />
+      <item name="${project.name}-src.zip"
+            href="${project.name}-src.zip" />
+    </menu>
+    
+    <menu name="Sample -- For JUnitReport">
+      <item name="Sample:JUnitReport"
+            href="junitreport-noframe/junit-noframes.html" />
+      <item name="UT5:Simple"
+            href="simple/ut5.html" />
+      <item name="UT5:Simple tree"
+            href="simple/ut5tree.html" />
+      <item name="UT5:Column change"
+            href="tree/ut5tree.html" />
+      <item name="UT5:Group tag"
+            href="group/ut5.html" />
+      <item name="UT5:Group tag tree"
+            href="group/ut5tree.html" />
+    </menu>
+     
+    <menu name="Sample -- For FindBugs">
+      <item name="Sample:FindBugs"
+            href="findbugs.html" />
+      <item name="UT5:Simple"
+            href="find/ut5.html" />
+      <item name="UT5:FindBugs tree"
+            href="find/ut5tree.html" />
+    </menu>
+
+    <menu name="Sample -- Mix">
+      <item name="Mix"
+            href="mix/ut5.html" />
+      <item name="Mix tree"
+            href="mix/ut5tree.html" />
+    </menu>
+
+     <menu name="Other">
+      <item name="Javadoc(frame)"
+            href="javadoc/index.html" />
+      <item name="JUnitReport(frame)"
+            href="junitreport/index.html" />
+    </menu>
+    
+    <menu ref="modules" />
+    
+    <menu ref="reports" />
+    
+  </body>
+</project>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="Shift_JIS"?>
+<project name="Automation Project" default="all" basedir="../../..">
+	<tstamp>
+	 <format property="DATE" pattern="yyyy-MM-dd" />
+	</tstamp>
+
+	<target name="all">
+		<mkdir dir="./target/" />
+		<delete dir="./target/junitDate/${DATE}" />
+		<mkdir dir="./target/junitDate/${DATE}" />	
+        <mkdir dir="./target/junitDate/${DATE}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+			<classpath>
+		        <pathelement location="../../../Program Files/Java/jdk1.8.0_91/lib/tools.jar"/>
+		        <pathelement location="../../Maven/repository/org/apache/ant/ant-junit/1.9.7/ant-junit-1.9.7.jar"/>
+		        <pathelement location="../../Maven/repository/org/apache/ant/ant/1.9.7/ant-1.9.7.jar"/>
+		        <pathelement location="../../Maven/repository/org/apache/ant/ant-launcher/1.9.7/ant-launcher-1.9.7.jar"/>
+		        <pathelement location="../../Maven/repository/junit/junit/4.11/junit-4.11.jar"/>
+		        <pathelement location="../../Maven/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar"/>
+		        <pathelement location="../../Maven/repository/com/google/code/findbugs/findbugs/3.0.1/findbugs-3.0.1.jar"/>
+		        <pathelement location="../../Maven/repository/net/jcip/jcip-annotations/1.0/jcip-annotations-1.0.jar"/>
+		        <pathelement location="../../Maven/repository/com/google/code/findbugs/jsr305/2.0.1/jsr305-2.0.1.jar"/>
+		        <pathelement location="../../Maven/repository/com/google/code/findbugs/bcel-findbugs/6.0/bcel-findbugs-6.0.jar"/>
+		        <pathelement location="../../Maven/repository/com/google/code/findbugs/jFormatString/2.0.1/jFormatString-2.0.1.jar"/>
+		        <pathelement location="../../Maven/repository/dom4j/dom4j/1.6.1/dom4j-1.6.1.jar"/>
+		        <pathelement location="../../Maven/repository/xml-apis/xml-apis/1.0.b2/xml-apis-1.0.b2.jar"/>
+		        <pathelement location="../../Maven/repository/org/ow2/asm/asm-debug-all/5.0.2/asm-debug-all-5.0.2.jar"/>
+		        <pathelement location="../../Maven/repository/org/ow2/asm/asm-commons/5.0.2/asm-commons-5.0.2.jar"/>
+		        <pathelement location="../../Maven/repository/org/ow2/asm/asm-tree/5.0.2/asm-tree-5.0.2.jar"/>
+		        <pathelement location="../../Maven/repository/org/ow2/asm/asm/5.0.2/asm-5.0.2.jar"/>
+		        <pathelement location="../../Maven/repository/commons-lang/commons-lang/2.6/commons-lang-2.6.jar"/>
+		        <pathelement location="../../Maven/repository/com/apple/AppleJavaExtensions/1.4/AppleJavaExtensions-1.4.jar"/>
+		        <pathelement location="../../Maven/repository/jaxen/jaxen/1.1.6/jaxen-1.1.6.jar"/>
+		        <pathelement location="target/classes"/>
+		        <pathelement location="target/test-classes"/>
+		        <pathelement location="target/sample/classes"/>
+			</classpath>
+        	<formatter type="xml"/>
+ 			<batchtest fork="yes" todir="./target/junitDate/${DATE}">
+				<fileset dir="./src/sample/java">
+					<include name="**/*Test.java" />
+				</fileset>
+			</batchtest>
+        </junit>
+	
+        <mkdir dir="./target/site/junitreport"/>
+		<junitreport todir="./target/site/junitreport">
+			<fileset dir="./target/junitDate/${DATE}">
+				<include name="TEST-*.xml" />
+			</fileset>
+			<report format="frames" todir="./target/site/junitreport" />
+		</junitreport>
+		
+        <mkdir dir="./target/site/junitreport-noframe"/>
+		<junitreport todir="./target/site/junitreport-noframe">
+			<fileset dir="./target/junitDate/${DATE}">
+				<include name="TEST-*.xml" />
+			</fileset>
+			<report format="noframes" todir="./target/site/junitreport-noframe" />
+		</junitreport>
+	</target>
+</project>

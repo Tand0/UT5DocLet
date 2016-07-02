@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document
+    xml:lang="en"
+	lang="en"
+	xmlns="http://maven.apache.org/XDOC/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+	<properties>
+		<title>DOCLET: JUnit report include JavaDoc : Ojido-kun UT5</title>
+		<author>Toshikazu Ando.</author>
+	</properties>
+	<body>
+		<section name="DOCLET: JUnit report include JavaDoc : Ojido-kun UT5">
+		
+		<p>
+I created the JUnitReport for ant task.<br />
+<br />
+But those file are not include JavaDoc ;-)<br />
+<br />
+So I create JUnit report include JavaDoc using JavaDoclet technology
+(<a href="./simple/ut5.html">Sample1</a>,<a href="./simple/ut5tree.html">Sample2</a>(Solution)).
+		</p>
+		
+		</section>
+		
+		<section name="How to use">
+
+<p>1st step: create the java source code.</p>
+<source>
+    /**
+     * Hello world test message
+     */
+    @Test
+    public void testHello() {
+        assertTrue(true);
+    }
+</source>
+
+<p>Next step: write build.xml the following text. (For JUnit)</p>
+<source>
+  &lt;path id="common.classpath"&gt;
+    &lt;pathelement path="C:\eclipse\plugins\org.hamcrest.core_1.3.0.v201303031735.jar" /&gt;
+    &lt;pathelement path="C:\eclipse\plugins\org.junit_4.12.0.v201504281640/junit.jar" /&gt;
+    &lt;pathelement path="C:\Program Files\Java\jdk1.8.0_77\lib\tools.jar" /&gt;
+    &lt;pathelement location="./classes" /&gt;
+  &lt;/path&gt;
+  &lt;target name="all"&gt;
+    &lt;mkdir dir="./target/" /&gt;
+    &lt;delete dir="./target/junit" /&gt;
+    &lt;mkdir dir="./target/junit" /&gt;
+    &lt;junit printsummary="yes" haltonfailure="no"&gt;
+      &lt;classpath refid="common.classpath" /&gt;
+      &lt;formatter type="xml" /&gt;
+      &lt;batchtest fork="yes" todir="./target/junit"&gt;
+        &lt;fileset dir="./src/test/java"&gt;
+          &lt;include name="**/*Test.java" /&gt;
+        &lt;/fileset&gt;
+      &lt;/batchtest&gt;
+    &lt;/junit&gt;
+</source>
+
+<p>Last step: write build.xml the following text. (For output report)</p>
+<source>
+    &lt;delete dir="./target/ut5" /&gt;
+    &lt;mkdir dir="./target/ut5" /&gt;
+    &lt;javadoc destdir="./target/ut5" encoding="UTF-8" docencoding="UTF-8" additionalparam="-J-Dfile.encoding=UTF-8" charset="UTF-8"&gt;
+      &lt;classpath refid="common.classpath" /&gt;
+      &lt;packageset dir="src/test/java"&gt;
+          &lt;include name="jp/**" /&gt;
+      &lt;/packageset&gt;
+      &lt;doclet name="jp.ruru.park.ando.ut5.UT5Doclet" path="lib/UT5DocLet.jar"&gt;
+        &lt;param name="-junit" value="./target/junit" /&gt;
+      &lt;/doclet&gt;
+    &lt;/javadoc&gt;
+</source>
+
+
+</section>
+
+<section name="junittree option">
+
+<p>Or this. (For Column change)</p>
+
+<source>
+    &lt;delete dir="./target/ut5" /&gt;
+    &lt;mkdir dir="./target/ut5" /&gt;
+    &lt;javadoc destdir="./target/ut5" encoding="UTF-8" docencoding="UTF-8" additionalparam="-J-Dfile.encoding=UTF-8" charset="UTF-8"&gt;
+      &lt;classpath refid="common.classpath" /&gt;
+      &lt;packageset dir="src/test/java"&gt;
+          &lt;include name="jp/**" /&gt;
+      &lt;/packageset&gt;
+      &lt;doclet name="jp.ruru.park.ando.ut5.UT5Doclet" path="lib/UT5DocLet.jar"&gt;
+        &lt;param name="-junit" value="./target/junit" /&gt;
+        &lt;param name="-junittree" value="abdegh cf r i j tt s nqq l" /&gt;
+      &lt;/doclet&gt;
+    &lt;/javadoc&gt;
+</source>
+
+<p>-junittree option value have the following meaning.</p>
+
+<table>
+<tr><th>Key</th><th>Mean</th></tr>
+<tr><td>a</td><td>Package No</td></tr>
+<tr><td>b</td><td>Package Name</td></tr>
+<tr><td>c</td><td>Package Message</td></tr>
+<tr><td>d</td><td>Class No</td></tr>
+<tr><td>e</td><td>Class Name</td></tr>
+<tr><td>f</td><td>Class Message</td></tr>
+<tr><td>g</td><td>Test Case No</td></tr>
+<tr><td>h</td><td>Test Case Name</td></tr>
+<tr><td>i</td><td>Test Case Message</td></tr>
+<tr><td>j</td><td>Status</td></tr>
+<tr><td>k</td><td>TimeStamp</td></tr>
+<tr><td>l</td><td>Time</td></tr>
+<tr><td>m</td><td>Author</td></tr>
+<tr><td>n</td><td>Version</td></tr>
+<tr><td>o</td><td>Blank (Package)</td></tr>
+<tr><td>p</td><td>Blank (Class)</td></tr>
+<tr><td>q</td><td>Blank (Test Case)</td></tr>
+<tr><td>r</td><td>Precondition</td></tr>
+<tr><td>s</td><td>Author name</td></tr>
+<tr><td>t</td><td>Date</td></tr>
+<tr><td>u</td><td>Old TimeStamp</td></tr>
+<tr><td>v</td><td>Old Date</td></tr>
+<tr><td>w</td><td>Pass the test code.</td></tr>
+<tr><td>[space]</td><td>Ignore</td></tr>
+</table>
+
+		</section>
+		
+		
+	</body>
+
+</document>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document
+    xml:lang="ja"
+	lang="ja"
+	xmlns="http://maven.apache.org/XDOC/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+	<properties>
+		<title>DOCLET: FindBugs report include JavaDoc : Ojido-kun UT5</title>
+		<author>Toshikazu Ando.</author>
+	</properties>
+	<body>
+		<section name="単体試験項目表をFindBugs/Ant/Javadocで作ろう：おじどうくんUT5">
+		
+		<p>
+FindBugsを使うとソースコードをいろいろ静的に解析してくれてとても便利です。<br />
+<br />
+しかしバグを取り切ると<a href="../findbugs.html">FindBugsの出力結果はこんな感じ</a>になります。<br />
+</p>
+<p>
+<strong>すんげー味気ねぇー</strong><br />
+</p>
+<p>
+バグ取りには適しているのでしょうが、どうにも単体試験項目表っぽくありません。<br />
+そこで、JavaDocを使用してソースコードから単体試験項目表を生成し、
+全体で何件評価項目があるのか(要はメソッド等合わせて何件か?)、ということが見た目で分かるようにしてみました。<br />
+<br />
+<s>これを用いればいかにも試験をやったかのように試験項目数を水増しできるぜ。</s>(いや実際やってんねんで)<br />
+<s>そう、それっぽいガラがありさえすればいいのだ。</s>(いや実際やってんねんで)<br />
+<br />
+これによって出てくる
+<a href="../find/ut5.html">単体試験項目表はこんな感じ</a>です。<br />
+もっと表っぽくしたいのであれば、
+<a href="../find/ut5tree.html">単体試験項目表はこんな感じ</a>にでも出力します。
+こちらは画面を目いっぱい広げてからコピーし、excelに張り付けるような用途を想定して作成しています。
+		</p>
+		
+		</section>
+		
+		<section name="使い方(Antの書き方)">
+
+<p>まずは適当にコードを書いてください。当然JavaDocのコメント付きで。</p>
+<source>
+    /**
+     * Hello world message
+     */
+    public void hello() {
+        System.out.println("hello world!");
+    }
+</source>
+
+<p>こんな感じでまずFindBugsを実行して bcel-fb.xml を出力してください。</p>
+<source>
+    &lt;findbugs home="${findbugs.home}"
+        jvmargs="-Duser.language=en"
+        output="xml"
+        outputFile="./target/findbugs/bcel-fb.xml" &gt;
+       &lt;auxClasspath refid="common.classpath" /&gt;
+       &lt;sourcePath path="./src/main/java" /&gt;
+       &lt;class location="lib/UT5DocLet.jar" /&gt;
+    &lt;/findbugs&gt;
+</source>
+
+<p>次に、javadocを使って単体試験項目表を作成します。<br />
+※当然ですが、これを使うにはこのページからダウンロードしたUT5DocLet.jarが必要です。</p>
+<source>
+    &lt;delete dir="./target/ut5" /&gt;
+    &lt;mkdir dir="./target/ut5" /&gt;
+    &lt;javadoc destdir="./target/ut5" encoding="MS932" docencoding="MS932" additionalparam="-J-Dfile.encoding=MS932" charset="Shift_JIS"&gt;
+      &lt;classpath refid="common.classpath" /&gt;
+      &lt;packageset dir="src/main/java"&gt;
+          &lt;include name="jp/**" /&gt;
+      &lt;/packageset&gt;
+      &lt;doclet name="jp.ruru.park.ando.ut5.UT5Doclet" path="lib/UT5DocLet.jar"&gt;
+        &lt;param name="-findbugs" value="target/findbugs/bcel-fb.xml" /&gt;
+      &lt;/doclet&gt;
+    &lt;/javadoc&gt;
+</source>
+
+</section>
+		
+	</body>
+
+</document>

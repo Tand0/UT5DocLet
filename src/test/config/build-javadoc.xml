@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="Shift_JIS"?>
+<project name="Automation Project" default="all" basedir="../../..">
+	
+	
+	
+	<target name="all" depends="javadoc,findbugs,mix,group,simple,tree">
+	</target>
+	
+	<target name="javadoc">
+		<delete dir="target/site/javadoc" />
+		<mkdir dir="target/site/javadoc" />
+		<javadoc destdir="target/site/javadoc"
+				encoding="MS932" docencoding="MS932"
+				additionalparam="-J-Dfile.encoding=MS932"
+				locale="en"
+			    author="true"
+				version="true"
+				use="true"
+				defaultexcludes="no"
+				private="true"
+				nodeprecated="false"
+				nodeprecatedlist="false"
+				notree="false"
+				noindex="false"
+				serialwarn="false"
+				failonerror="false">
+			<classpath>
+		        <pathelement location="target/classes"/>
+		        <pathelement location="target/test-classes"/>
+		        <pathelement location="target/sample/classes"/>
+		        <path refid="maven.compile.classpath"/>
+			</classpath>
+			<packageset dir="src/main/java" defaultexcludes="yes">
+				<include name="jp/**" />
+			</packageset>
+		</javadoc>
+	</target>
+	
+	<target name="findbugs">
+		<delete dir="target/site/find" />
+		<mkdir dir="target/site/find" />
+		<javadoc destdir="target/site/find"
+			windowtitle="(SAMPLE)DOCLET: Findbugs report include JavaDoc"
+			encoding="MS932"
+			docencoding="UTF-8"
+			additionalparam="-J-Dfile.encoding=MS932"
+			locale="en"
+			use="true"
+		    author="true"
+	        version="true"
+			defaultexcludes="no"
+			access="private"
+			nodeprecated="true"
+			nodeprecatedlist="true"
+			notree="false"
+			noindex="false"
+			nonavbar="true"
+			nohelp="true"
+			serialwarn="true"
+			failonerror="false"
+			splitindex="true"
+			charset="UTF-8"
+			source="1.8"
+			stylesheetfile="./target/site/css/maven-theme.css">
+			<classpath>
+		        <pathelement location="target/classes"/>
+		        <pathelement location="target/test-classes"/>
+		        <pathelement location="target/sample/classes"/>
+		        <path refid="maven.compile.classpath"/>
+			</classpath>
+			<packageset dir="src/main/java" defaultexcludes="yes">
+				<include name="jp/**" />
+			</packageset>
+			<doclet name="jp.ruru.park.ando.ut5.UT5Doclet"
+				path="target/UT5DocLet.jar">
+				<param name="-findbugs" value="target/findbugsXml.xml" />
+			</doclet>
+			<doctitle>DOCLET: Findbugs report include JavaDoc.</doctitle>
+			<footer>Copyright &#169; 2016 Ando Computer Behavior RandD. All Rights Reserved.</footer>
+		</javadoc>
+	</target>
+
+	<target name="mix">
+		<delete dir="target/site/mix" />
+		<mkdir dir="target/site/mix" />
+		<javadoc destdir="target/site/mix"
+			encoding="MS932"
+			docencoding="UTF-8"
+			additionalparam="-J-Dfile.encoding=MS932"
+			locale="en"
+			use="true"
+		    author="true"
+	        version="true"
+			defaultexcludes="no"
+			access="private"
+			nodeprecated="true"
+			nodeprecatedlist="true"
+			notree="false"
+			noindex="false"
+			nonavbar="true"
+			nohelp="true"
+			serialwarn="true"
+			failonerror="false"
+			splitindex="true"
+			charset="UTF-8"
+			source="1.8"
+			stylesheetfile="./target/site/css/maven-theme.css">
+			<classpath>
+		        <pathelement location="target/classes"/>
+		        <pathelement location="target/test-classes"/>
+		        <pathelement location="target/sample/classes"/>
+		        <path refid="maven.compile.classpath"/>
+			</classpath>
+			<packageset dir="src/main/java" defaultexcludes="yes">
+				<include name="jp/**" />
+			</packageset>
+			<packageset dir="src/sample/java" defaultexcludes="yes">
+				<include name="jp/**" />
+			</packageset>
+
+			<doclet name="jp.ruru.park.ando.ut5.UT5Doclet"
+				path="target/UT5DocLet.jar">
+				<param name="-junit" value="target/junitDate" />
+				<param name="-findbugs" value="target/findbugsXml.xml" />
+			</doclet>
+		    <group title="Main TestCase" packages="jp.ruru.park.ando.ut5*"/>
+		    <group title="Findbugs Test" packages="findbugs*"/>
+			<doctitle>DOCLET: JUnit report include JavaDoc.</doctitle>
+			<footer>Copyright &#169; 2016 Ando Computer Behavior RandD. All Rights Reserved.</footer>
+		</javadoc>
+	</target>
+
+	<target name="group">
+		<delete dir="target/site/group" />
+		<mkdir dir="target/site/group" />
+		<javadoc destdir="target/site/group"
+			encoding="MS932"
+			docencoding="UTF-8"
+			additionalparam="-J-Dfile.encoding=MS932"
+			locale="en"
+			use="true"
+		    author="true"
+	        version="true"
+			defaultexcludes="no"
+			access="private"
+			nodeprecated="true"
+			nodeprecatedlist="true"
+			notree="false"
+			noindex="false"
+			nonavbar="true"
+			nohelp="true"
+			serialwarn="true"
+			failonerror="false"
+			splitindex="true"
+			charset="UTF-8"
+			source="1.8">
+			<classpath>
+		        <pathelement location="target/classes"/>
+		        <pathelement location="target/test-classes"/>
+		        <pathelement location="target/sample/classes"/>
+		        <path refid="maven.compile.classpath"/>
+			</classpath>
+			<packageset dir="src/sample/java" defaultexcludes="yes">
+				<include name="jp/**" />
+			</packageset>
+
+			<doclet name="jp.ruru.park.ando.ut5.UT5Doclet"
+				path="target/UT5DocLet.jar">
+				<param name="-junit" value="target/junitDate" />
+			</doclet>
+		    <group title="Main Packages" packages="jp.ruru.park.ando.ut5*"/>
+		    <group title="Sub Packages" packages="jp.ruru.park.ando.ut5.sample*"/>
+			<doctitle>DOCLET: JUnit report include JavaDoc.</doctitle>
+			<footer>Copyright &#169; 2016 Ando Computer Behavior RandD. All Rights Reserved.</footer>
+		</javadoc>
+	</target>
+
+	<target name="simple">
+		<delete dir="target/site/simple" />
+		<mkdir dir="target/site/simple" />
+		<javadoc destdir="target/site/simple"
+			encoding="MS932"
+			docencoding="UTF-8"
+			additionalparam="-J-Dfile.encoding=MS932"
+			locale="en"
+			use="true"
+		    author="true"
+	        version="true"
+			defaultexcludes="no"
+			access="private"
+			nodeprecated="true"
+			nodeprecatedlist="true"
+			notree="false"
+			noindex="false"
+			nonavbar="true"
+			nohelp="true"
+			serialwarn="true"
+			failonerror="false"
+			splitindex="true"
+			charset="UTF-8"
+			source="1.8">
+			<classpath>
+		        <pathelement location="target/classes"/>
+		        <pathelement location="target/test-classes"/>
+		        <pathelement location="target/sample/classes"/>
+		        <path refid="maven.compile.classpath"/>
+			</classpath>
+			<packageset dir="src/sample/java" defaultexcludes="yes">
+				<include name="jp/**" />
+			</packageset>
+
+			<doclet name="jp.ruru.park.ando.ut5.UT5Doclet"
+				path="target/UT5DocLet.jar">
+				<param name="-junit" value="target/junitDate" />
+			</doclet>
+			<doctitle>DOCLET: JUnit report include JavaDoc.</doctitle>
+			<footer>Copyright &#169; 2016 Ando Computer Behavior RandD. All Rights Reserved.</footer>
+		</javadoc>
+	</target>
+
+	<target name="tree">
+		<delete dir="target/site/tree" />
+		<mkdir dir="target/site/tree" />
+		<javadoc destdir="target/site/tree"
+			windowtitle="(SAMPLE)DOCLET: JUnit report include JavaDoc"
+			encoding="MS932"
+			docencoding="UTF-8"
+			additionalparam="-J-Dfile.encoding=MS932"
+			locale="en"
+			use="true"
+		    author="true"
+	        version="true"
+			defaultexcludes="no"
+			access="private"
+			nodeprecated="true"
+			nodeprecatedlist="true"
+			notree="false"
+			noindex="false"
+			nonavbar="true"
+			nohelp="true"
+			serialwarn="true"
+			failonerror="false"
+			splitindex="true"
+			charset="UTF-8"
+			source="1.8">
+			<classpath>
+		        <pathelement location="target/classes"/>
+		        <pathelement location="target/test-classes"/>
+		        <pathelement location="target/sample/classes"/>
+		        <path refid="maven.compile.classpath"/>
+			</classpath>
+			<packageset dir="src/sample/java" defaultexcludes="yes">
+				<include name="jp/**" />
+			</packageset>
+
+			<doclet name="jp.ruru.park.ando.ut5.UT5Doclet"
+				path="target/UT5DocLet.jar">
+				<param name="-junit" value="target/junitDate" />
+				<param name="-junittree" value="abdegh cf r i wj vt s nqq l" />
+			</doclet>
+			<doctitle>DOCLET: JUnit report include JavaDoc.</doctitle>
+			<footer>Copyright &#169; 2016 Ando Computer Behavior RandD. All Rights Reserved.</footer>
+		</javadoc>
+	</target>
+	
+	
+</project>
