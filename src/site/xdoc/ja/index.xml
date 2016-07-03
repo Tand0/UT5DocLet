@@ -231,6 +231,12 @@
 <section name="変更履歴">
 
 <dl>
+  <dt>Version.1.1.11 :</dt>
+  <dd>
+   findbugs側のエラー行の検索とカウントエンジンにミスがあったのを修正。
+  </dd>
+
+
   <dt>Version.1.1.10 :</dt>
   <dd>
    GitHubに登録。それに伴いpom.xmlにサイトURLを登録。<br />

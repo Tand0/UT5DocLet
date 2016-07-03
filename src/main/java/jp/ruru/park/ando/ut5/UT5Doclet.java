@@ -1159,7 +1159,7 @@ public class UT5Doclet {
 							errorCount++;
 							status = UT5Method.ST_ERROR;
 						} else if (failurerDoc.contains(doc)) {
-							errorCount++;
+							failurerCount++;
 							status = UT5Method.ST_FAIILURE;
 						} else {
 							status = UT5Method.ST_SUCCES;
@@ -1240,8 +1240,6 @@ public class UT5Doclet {
 				if (this.groupFactory.getFindbugsTimestamp() < timestamp) {
 					this.groupFactory.setFindbugsTimestamp(timestamp);
 				}
-				//rootDoc.printError(" time=" + timestamp);
-				//rootDoc.printError("dtime=" + (new Date().getTime()));
 			}
 		} catch (NumberFormatException e) {
 			//EMPTY
@@ -1259,20 +1257,27 @@ public class UT5Doclet {
 		}
 		if (element.getTagName().equals("SourceLine")) {
 			String classname = element.getAttribute("classname");
+			String fileString = element.getAttribute("sourcepath");
 			String startString = element.getAttribute("start");
-			int start = 1;
-			try {
-				if ((startString != null) && (!startString.equals(""))) {
-					start = Integer.parseInt(startString);
-				}
-			} catch (NumberFormatException e) {
-				//EMPTY
-			}
+			//
 			ClassDoc classDoc = rootDoc.classNamed(classname);
 			if (classDoc == null) {
 				rootDoc.printError("JavaDoc: " + classname + " not found");
 				return;
 			}
+			if ((fileString == null) || (startString == null) || startString.equals("")) {
+				errorDoc.add(classDoc);
+				return;
+			}
+			int start;
+			try {
+				start = Integer.parseInt(startString);
+			} catch (NumberFormatException e) {
+				errorDoc.add(classDoc);
+				return;
+			}
+			File file = new File(fileString);
+
 			MemberDoc target = null;
 			int max = Integer.MAX_VALUE;
 			List<MemberDoc> constMethodDocList =
@@ -1288,6 +1293,13 @@ public class UT5Doclet {
 			//
 			for (MemberDoc methodDoc: constMethodDocList) {
 				SourcePosition position = methodDoc.position();
+				File targetFile = position.file();
+				if (targetFile == null) {
+					continue;
+				}
+				if (!targetFile.getName().equals(file.getName())) {
+					continue;
+				}
 				int line = position.line();
 				if ((start < max) && (line <= start)) {
 					max = start;
@@ -1367,10 +1379,10 @@ public class UT5Doclet {
 	/** over view */
 	private File overview = null;
 	
-	/** stylesheetfile */
+	/** style sheet file */
 	private File stylesheetfile = null;
 	
-	/** junit tree */
+	/** JUnit tree */
 	private String junittree = null;
 	
 	/** group factory */
