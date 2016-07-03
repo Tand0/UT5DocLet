@@ -572,7 +572,13 @@ public class UT5Doclet {
 			int sumErrors = myClassList.stream().mapToInt(e->e.getErrors()).sum();
 			int sumSkipped = myClassList.stream().mapToInt(e->e.getSkipped()).sum();
 			String sumSuccessRate = dp.format(1.0 * (sumTest - sumFailures - sumErrors) / sumTest);
-			String sumTime = dt.format(myClassList.stream().mapToDouble(e->e.getTime()).sum());
+			double sumTimeInt = myClassList.stream().mapToDouble(e->e.getTime()).sum();
+			String sumTime;
+			if (sumTimeInt <= 0) {
+				sumTime = "---";
+			} else {
+				sumTime = dt.format(sumTimeInt);
+			}
 			//
 			String htmlClass;
 			if (0 < sumFailures) {
@@ -596,7 +602,13 @@ public class UT5Doclet {
 			int sumErrors = myClassList.stream().mapToInt(e->e.getErrors()).sum();
 			int sumSkipped = myClassList.stream().mapToInt(e->e.getSkipped()).sum();
 			String sumSuccessRate = dp.format(1.0 * (sumTest - sumFailures - sumErrors) / sumTest);
-			String sumTime = dt.format(myClassList.stream().mapToDouble(e->e.getTime()).sum());
+			double sumTimeInt = myClassList.stream().mapToDouble(e->e.getTime()).sum();
+			String sumTime;
+			if (sumTimeInt <= 0) {
+				sumTime = "---";
+			} else {
+				sumTime = dt.format(sumTimeInt);
+			}
 			//
 			String htmlClass;
 			if (0 < sumFailures) {
@@ -652,7 +664,14 @@ public class UT5Doclet {
 		int sumFailures = myPackage.getClassSet().stream().mapToInt(e->e.getFailures()).sum();
 		int sumErrors = myPackage.getClassSet().stream().mapToInt(e->e.getErrors()).sum();
 		int sumSkipped = myPackage.getClassSet().stream().mapToInt(e->e.getSkipped()).sum();
-		String sumTime = dt.format(myPackage.getClassSet().stream().mapToDouble(e->e.getTime()).sum());
+		double sumTimeInt = myPackage.getClassSet().stream().mapToDouble(e->e.getTime()).sum();
+		String sumTime;
+		if (sumTimeInt <= 0) {
+			sumTime = "---";
+		} else {
+			sumTime = dt.format(sumTimeInt);
+		}
+
 		//
 		String htmlClass;
 		if (0 < sumFailures) {
@@ -1152,8 +1171,8 @@ public class UT5Doclet {
 							signature = UT5Method.FIELD_SIGN;
 						}
 						UT5Method myMethod = new UT5Method(
-								rootDoc, classDoc, doc.name(),signature,
-								-1.0,status,timestamp,oldTimestamp);
+								classDoc, doc.name(),signature,
+								0.0,status,timestamp,oldTimestamp);
 						myClass.getMethodList().add(myMethod);
 					}
 					//
@@ -1170,7 +1189,7 @@ public class UT5Doclet {
 					}
 					// other class..
 					myClass.getAnoMethodList().add(
-							new UT5Method(rootDoc,classDoc,"@Class","-",-1.0,status,
+							new UT5Method(classDoc,"@Class","-",-1.0,status,
 									timestamp,oldTimestamp));
 					//
 					myClass.setTests(testCount);

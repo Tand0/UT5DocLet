@@ -27,8 +27,10 @@
     <menu name="Download">
       <item name="${project.name}.zip"
             href="${project.name}.zip" />
-      <item name="${project.name}-src.zip"
-            href="${project.name}-src.zip" />
+      <item name="Sorce code"
+            href="https://github.com/Tand0/UT5DocLet" />
+      <item name="Issue management"
+            href="https://github.com/Tand0/UT5DocLet/issues" />
     </menu>
     
     <menu name="Sample -- For JUnitReport">

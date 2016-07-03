@@ -13,7 +13,6 @@ import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.ConstructorDoc;
 import com.sun.javadoc.FieldDoc;
 import com.sun.javadoc.MethodDoc;
-import com.sun.javadoc.RootDoc;
 import com.sun.javadoc.Tag;
 
 /**
@@ -28,7 +27,6 @@ public class UT5Method extends UT5 implements Comparable<UT5Method> {
 
 	/**
 	 * constructor 
-	 * @param rootDoc rootDoc for JavaDoc
 	 * @param classDoc classDoc for JavaDoc
 	 * @param name method name
 	 * @param signature method signature
@@ -37,15 +35,14 @@ public class UT5Method extends UT5 implements Comparable<UT5Method> {
 	 * @param timestamp time stamp
 	 * @param oldTimeStamp old time stamp
 	 */
-	public UT5Method(RootDoc rootDoc,ClassDoc classDoc,String name,String signature,double time,String status,long timestamp,long oldTimeStamp) {
+	public UT5Method(ClassDoc classDoc,String name,String signature,double time,String status,long timestamp,long oldTimeStamp) {
 		super(name,time,timestamp,oldTimeStamp);
 		this.signature = signature;
 		this.status = status;
 		this.author = findTag(classDoc,"author");
 		this.version = findTag(classDoc,"version");
 		//
-		//
-		String message = findMdocString(rootDoc,classDoc);
+		String message = findMdocString(classDoc);
 		this.setMessage(createMultiMessage(message));
 		//
 	}
@@ -53,14 +50,13 @@ public class UT5Method extends UT5 implements Comparable<UT5Method> {
 	/**
 	 * constructor 
 	 * Crate MethodDoc for JUNit.
-	 * @param rootDoc rootDoc for JavaDoc
 	 * @param classDoc classDoc for JavaDoc
 	 * @param element MethodDoc for Element
 	 * @param timestamp time stamp
 	 * @param oldTimeStamp old time stamp
 	 */
-	public UT5Method(RootDoc rootDoc,ClassDoc classDoc,Element element,long timestamp,long oldTimeStamp) {
-		this(rootDoc,classDoc,element.getAttribute("name"),
+	public UT5Method(ClassDoc classDoc,Element element,long timestamp,long oldTimeStamp) {
+		this(classDoc,element.getAttribute("name"),
 				"()",
 				Double.valueOf(element.getAttribute("time")),
 				ST_SUCCES,
@@ -110,17 +106,16 @@ public class UT5Method extends UT5 implements Comparable<UT5Method> {
 
 	/**
 	 * get the message for MethodDoc.
-	 * @param rootDoc rooDoc for JavaDoc.
 	 * @param classDoc ClassDoc for JavaDoc.
 	 * @return message
 	 */
-	protected String findMdocString(RootDoc rootDoc,ClassDoc classDoc)  {
+	protected String findMdocString(ClassDoc classDoc)  {
 		if (classDoc == null) {
 			return null;
 		}
 		//
 		// this is field!
-		if (this.signature.equals(UT5Method.FIELD_SIGN)) {
+		if (this.getSignature().equals(UT5Method.FIELD_SIGN)) {
 			for (FieldDoc doc : classDoc.fields()) {
 				if (this.getName().equals(doc.name())) {
 					// hit!
@@ -138,7 +133,7 @@ public class UT5Method extends UT5 implements Comparable<UT5Method> {
 		if (this.getName().equals(classDoc.name())) {
 			//
 			for (ConstructorDoc constrcutr : classDoc.constructors()) {
-				if (signature.equals(constrcutr.signature())) {
+				if (this.getSignature().equals(constrcutr.signature())) {
 					//hit!
 					String message = constrcutr.commentText();
 					if ((message != null) && (!message.equals(""))) {
@@ -152,9 +147,10 @@ public class UT5Method extends UT5 implements Comparable<UT5Method> {
 		}
 		//
 		// this is method
-		List<MethodDoc> mdocList = findMdocList(rootDoc,classDoc).collect(Collectors.toList());
+		List<MethodDoc> mdocList = findMdocList(classDoc).collect(Collectors.toList());
 		//
 		String oversee = null;
+		boolean overrideTag = false;
 		for (MethodDoc mdoc : mdocList) {
 			//System.out.println("Signtture m=" + mdoc.name() + " sig=" + mdoc.signature());
 			String message = mdoc.commentText();
@@ -164,24 +160,31 @@ public class UT5Method extends UT5 implements Comparable<UT5Method> {
 			if (mdoc.containingClass() != classDoc) {
 				oversee = "@see " + mdoc.containingClass().qualifiedName() + "#" + getName();
 			}
+			Arrays.asList(mdoc).stream().forEachOrdered(e->System.out.println("e->" + e));
+			Tag[] tag = mdoc.tags("java.lang.Override");
+			if ((tag != null) && (0 < tag.length)) {
+				overrideTag = true;
+			}
 		}
 		if (oversee != null) {
 			return oversee;
+		}
+		if (overrideTag) {
+			return "@Override";
 		}
 		return null;
 	}
 	
 	/**
 	 * get the message for MethodDoc.
-	 * @param rootDoc RooDoc for JavaDoc.
 	 * @param classDoc ClassDoc for JavaDoc.
 	 * @return message
 	 */
-	protected Stream<MethodDoc> findMdocList(RootDoc rootDoc,ClassDoc classDoc)  {
+	protected Stream<MethodDoc> findMdocList(ClassDoc classDoc)  {
 		// this is method
 		List<MethodDoc> mdocList = 
 				Arrays.asList(classDoc.methods()).stream()
-				.filter(mdoc->mdoc.signature().equals(signature)) // for test case
+				.filter(mdoc->mdoc.signature().equals(getSignature())) // for test case
 				.filter(mdoc->mdoc.name().equals(this.getName()))
 				.collect(Collectors.toList());
 		
@@ -197,7 +200,7 @@ public class UT5Method extends UT5 implements Comparable<UT5Method> {
 		mdocList = 
 				Stream.concat(
 						mdocList.stream(),
-						parentList.stream().flatMap(parent->findMdocList(rootDoc,parent)))
+						parentList.stream().flatMap(parent->findMdocList(parent)))
 				.collect(Collectors.toList());
 		//
 		return mdocList.stream();
@@ -213,10 +216,7 @@ public class UT5Method extends UT5 implements Comparable<UT5Method> {
 		if (classDoc == null) {
 			return "";
 		}
-		List<MethodDoc> mdocList = 
-				Arrays.asList(classDoc.methods()).stream()
-				.filter(mdoc->mdoc.signature().equals(signature))
-				.filter(e->e.name().equals(this.getName())).collect(Collectors.toList());
+		List<MethodDoc> mdocList = this.findMdocList(classDoc).collect(Collectors.toList());
 		//
 		for (MethodDoc mdoc : mdocList) {
 			for (Tag tag : mdoc.tags(tagname)) {

@@ -231,10 +231,18 @@
 <section name="変更履歴">
 
 <dl>
+  <dt>Version.1.1.10 :</dt>
+  <dd>
+   GitHubに登録。それに伴いpom.xmlにサイトURLを登録。<br />
+   ソースの出力をGitHubに移行。<br />
+   time値が0.00のとき--を出力するように修正。<br />
+   表示するドキュメントがないとき、@Overriteがあるかチェックするように修正(ジェネリック対策)。
+  </dd>
+
   <dt>Version.1.1.9 :</dt>
   <dd>
    <a href="../find/ut5tree.html">FindBugsも単体試験項目表のように</a>してみた。<br />
-   Mavenでドキュメント生成するように修正。<br />
+   Mavenでドキュメント生成するように修正(xdoc書くの辛い…)。<br />
    JavaDocの stilesheetfile オプションに対応。<br />
    そろそろgithubに載せたい(が、やりかた忘れた…)。<br />
    JUnitがどーやってもMaven⇒ant経由で起動できないんだよなぁ…。

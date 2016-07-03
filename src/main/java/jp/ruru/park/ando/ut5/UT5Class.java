@@ -53,7 +53,7 @@ public class UT5Class extends UT5 implements Comparable<UT5Class> {
 		.filter(e->e instanceof Element)
 		.map(e->(Element)e)
 		.filter(e->e.getTagName().equals("testcase"))
-		.forEach(e->this.getMethodList().add(new UT5Method(rootDoc,classDoc,e,this.getRawTimestamp(),this.getRawOldTimesamp())));
+		.forEach(e->this.getMethodList().add(new UT5Method(classDoc,e,this.getRawTimestamp(),this.getRawOldTimesamp())));
 	}
 	/**
 	 * Constructor.
@@ -64,7 +64,7 @@ public class UT5Class extends UT5 implements Comparable<UT5Class> {
 	 * @param timestamp time stamp
 	 */
 	public UT5Class(RootDoc rootDoc,String name,double time,long timestamp) {
-		super(name,time,timestamp);
+		super(name,time,timestamp,timestamp);
 		//
 		ClassDoc classDoc = this.getClassDoc(rootDoc);
 		//
@@ -171,7 +171,7 @@ public class UT5Class extends UT5 implements Comparable<UT5Class> {
 						.anyMatch(string->string.equals("org.junit." + ano)))
 				.collect(Collectors.toList());
 		List<UT5Method> myCaseList = methodDocList.stream().map(method->
-			(UT5Method)new UT5Method(rootDoc,classDoc,method.name(),"()",-1.0,"@" + ano,
+			(UT5Method)new UT5Method(classDoc,method.name(),"()",0.0,"@" + ano,
 					this.getRawTimestamp(),this.getRawOldTimesamp())).collect(Collectors.toList());
 		return Stream.concat(parent, myCaseList.stream());
 	}

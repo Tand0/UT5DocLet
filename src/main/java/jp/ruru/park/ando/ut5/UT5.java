@@ -33,15 +33,6 @@ public abstract class UT5 {
 	protected static final String ST_SKIPPED = "Skipped";
 
 	/**
-	 * Constructor 
-	 * @param name name
-	 * @param time time
-	 * @param timestamp timestamp
-	 */
-	public UT5(String name,double time,long timestamp) {
-		this(name,time,timestamp,timestamp);
-	}
-	/**
 	 * Constructor
 	 * @param name name
 	 * @param time time
@@ -50,7 +41,7 @@ public abstract class UT5 {
 	 */
 	public UT5(String name,double time,long timestamp,long oldTimestamp) {
 		this.name = name;
-		this.time = time;
+		this.time = time <= 0 ? 0 : time;
 		this.timestamp = timestamp;
 		this.oldTimestamp = oldTimestamp;
 	}
@@ -84,7 +75,7 @@ public abstract class UT5 {
 	 * @return time
 	 */
 	public final String getTimeString() {
-		if (this.getTime() < 0) {
+		if (this.getTime() <= 0) {
 			return "---";
 		}
 		DecimalFormat dt = new DecimalFormat("0.000");

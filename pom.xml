@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>jp.ruru.park.ando.ut5</groupId>
 	<artifactId>UT5DocLet</artifactId>
-	<version>1.1.9</version>
+	<version>1.1.10</version>
 	<properties>
 		<java.home>C:/Program Files/Java/jdk1.8.0_91</java.home>
 	</properties>
@@ -182,4 +182,11 @@
 		<url>http://park.ruru.ne.jp/ando/work/index.html</url>
 	</organization>
 	<description>JUnit report include JavaDoc using JavaDoclet technology.</description>
+	<scm>
+		<url>https://github.com/Tand0/UT5DocLet</url>
+	</scm>
+	<issueManagement>
+		<url>https://github.com/Tand0/UT5DocLet/issues</url>
+		<system>github</system>
+	</issueManagement>
 </project>

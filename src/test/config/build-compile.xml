@@ -15,8 +15,5 @@
 		<zip destfile="./target/site/UT5DocLet.zip">
 		    <zipfileset dir="./target/" includes="UT5DocLet.jar"/>
 		</zip>
-		<zip destfile="./target/site/UT5DocLet-src.zip">
-		    <zipfileset dir="./src/main/java/" includes="**/*.java"/>
-		</zip>
 	</target>
 </project>
