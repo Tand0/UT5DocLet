@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>jp.ruru.park.ando.ut5</groupId>
 	<artifactId>UT5DocLet</artifactId>
-	<version>1.1.11</version>
+	<version>1.1.12</version>
 	<properties>
 		<java.home>C:/Program Files/Java/jdk1.8.0_91</java.home>
 	</properties>

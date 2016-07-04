@@ -63,7 +63,9 @@ So I create JUnit report include JavaDoc using JavaDoclet technology
 <source>
     &lt;delete dir="./target/ut5" /&gt;
     &lt;mkdir dir="./target/ut5" /&gt;
-    &lt;javadoc destdir="./target/ut5" encoding="UTF-8" docencoding="UTF-8" additionalparam="-J-Dfile.encoding=UTF-8" charset="UTF-8"&gt;
+    &lt;javadoc destdir="./target/ut5"
+      encoding="UTF-8" docencoding="UTF-8"
+      additionalparam="-J-Dfile.encoding=UTF-8"&gt;
       &lt;classpath refid="common.classpath" /&gt;
       &lt;packageset dir="src/test/java"&gt;
           &lt;include name="jp/**" /&gt;
@@ -84,7 +86,10 @@ So I create JUnit report include JavaDoc using JavaDoclet technology
 <source>
     &lt;delete dir="./target/ut5" /&gt;
     &lt;mkdir dir="./target/ut5" /&gt;
-    &lt;javadoc destdir="./target/ut5" encoding="UTF-8" docencoding="UTF-8" additionalparam="-J-Dfile.encoding=UTF-8" charset="UTF-8"&gt;
+    &lt;javadoc destdir="./target/ut5"
+      encoding="UTF-8" docencoding="UTF-8"
+      additionalparam="-J-Dfile.encoding=UTF-8"
+      charset="UTF-8"&gt;
       &lt;classpath refid="common.classpath" /&gt;
       &lt;packageset dir="src/test/java"&gt;
           &lt;include name="jp/**" /&gt;

@@ -59,7 +59,7 @@
 			serialwarn="true"
 			failonerror="false"
 			splitindex="true"
-			charset="UTF-8"
+			charset="Shift_JIS"
 			source="1.8"
 			stylesheetfile="./target/site/css/maven-theme.css">
 			<classpath>
@@ -102,7 +102,7 @@
 			serialwarn="true"
 			failonerror="false"
 			splitindex="true"
-			charset="UTF-8"
+			charset="Shift_JIS"
 			source="1.8"
 			stylesheetfile="./target/site/css/maven-theme.css">
 			<classpath>
@@ -152,7 +152,7 @@
 			serialwarn="true"
 			failonerror="false"
 			splitindex="true"
-			charset="UTF-8"
+			charset="Shift_JIS"
 			source="1.8">
 			<classpath>
 		        <pathelement location="target/classes"/>
@@ -197,7 +197,7 @@
 			serialwarn="true"
 			failonerror="false"
 			splitindex="true"
-			charset="UTF-8"
+			charset="Shift_JIS"
 			source="1.8">
 			<classpath>
 		        <pathelement location="target/classes"/>
@@ -241,7 +241,7 @@
 			serialwarn="true"
 			failonerror="false"
 			splitindex="true"
-			charset="UTF-8"
+			charset="Shift_JIS"
 			source="1.8">
 			<classpath>
 		        <pathelement location="target/classes"/>

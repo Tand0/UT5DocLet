@@ -160,7 +160,7 @@ public class UT5Method extends UT5 implements Comparable<UT5Method> {
 			if (mdoc.containingClass() != classDoc) {
 				oversee = "@see " + mdoc.containingClass().qualifiedName() + "#" + getName();
 			}
-			Arrays.asList(mdoc).stream().forEachOrdered(e->System.out.println("e->" + e));
+			//Arrays.asList(mdoc).stream().forEachOrdered(e->System.out.println("e->" + e));
 			Tag[] tag = mdoc.tags("java.lang.Override");
 			if ((tag != null) && (0 < tag.length)) {
 				overrideTag = true;

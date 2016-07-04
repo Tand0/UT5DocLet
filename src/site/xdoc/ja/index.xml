@@ -93,7 +93,10 @@
 <source>
     &lt;delete dir="./target/ut5" /&gt;
     &lt;mkdir dir="./target/ut5" /&gt;
-    &lt;javadoc destdir="./target/ut5" encoding="UTF-8" docencoding="UTF-8" additionalparam="-J-Dfile.encoding=UTF-8" charset="UTF-8"&gt;
+    &lt;javadoc destdir="./target/ut5"
+      encoding="UTF-8" docencoding="UTF-8"
+      additionalparam="-J-Dfile.encoding=UTF-8"
+      charset="Shift_JIS"&gt;
       &lt;classpath refid="common.classpath" /&gt;
       &lt;packageset dir="src/test/java"&gt;
           &lt;include name="jp/**" /&gt;
@@ -116,7 +119,10 @@
 <source>
     &lt;delete dir="./target/ut5" /&gt;
     &lt;mkdir dir="./target/ut5" /&gt;
-    &lt;javadoc destdir="./target/ut5" encoding="UTF-8" docencoding="UTF-8" additionalparam="-J-Dfile.encoding=UTF-8" charset="UTF-8"&gt;
+    &lt;javadoc destdir="./target/ut5"
+      encoding="UTF-8" docencoding="UTF-8"
+      additionalparam="-J-Dfile.encoding=UTF-8"
+      charset="Shift_JIS"&gt;
       &lt;classpath refid="common.classpath" /&gt;
       &lt;packageset dir="src/test/java"&gt;
           &lt;include name="jp/**" /&gt;
@@ -207,13 +213,15 @@
       serialwarn="true"
       failonerror="false"
       splitindex="true"
-      charset="UTF-8"
-      source="1.8"&gt;
+      charset="Shift_JIS"
+      source="1.8"
+      stylesheetfile="./target/site/css/maven-theme.css"&gt;
       &lt;classpath refid="common.classpath" /&gt;
       &lt;packageset dir="src/test/java" defaultexcludes="yes"&gt;
         &lt;include name="jp/**" /&gt;
       &lt;/packageset&gt;
-
+      &lt;group title="Main TestCase" packages="jp.ruru.park.ando.ut5*"/&gt;
+      &lt;group title="Findbugs Test" packages="findbugs*"/&gt;
       &lt;doclet name="jp.ruru.park.ando.ut5.UT5Doclet"
         path="lib/UT5DocLet.jar"&gt;
         &lt;param name="-junit" value="./target/junitDate" /&gt;
@@ -231,6 +239,12 @@
 <section name="変更履歴">
 
 <dl>
+  <dt>Version.1.1.21 :</dt>
+  <dd>
+   System.out.println()でデバッグメッセージが残っていたので削除。<br />
+   ドキュメントの記述一部修正。
+  </dd>
+
   <dt>Version.1.1.11 :</dt>
   <dd>
    findbugs側のエラー行の検索とカウントエンジンにミスがあったのを修正。

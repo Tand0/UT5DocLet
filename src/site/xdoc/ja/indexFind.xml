@@ -66,7 +66,10 @@ FindBugsを使うとソースコードをいろいろ静的に解析してくれ
 <source>
     &lt;delete dir="./target/ut5" /&gt;
     &lt;mkdir dir="./target/ut5" /&gt;
-    &lt;javadoc destdir="./target/ut5" encoding="MS932" docencoding="MS932" additionalparam="-J-Dfile.encoding=MS932" charset="Shift_JIS"&gt;
+    &lt;javadoc destdir="./target/ut5"
+      encoding="MS932" docencoding="MS932"
+      additionalparam="-J-Dfile.encoding=MS932"
+      charset="Shift_JIS"&gt;
       &lt;classpath refid="common.classpath" /&gt;
       &lt;packageset dir="src/main/java"&gt;
           &lt;include name="jp/**" /&gt;
