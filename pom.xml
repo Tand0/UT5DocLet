@@ -178,7 +178,7 @@
 	<name>UT5DocLet</name>
 	<url>http://park.ruru.ne.jp/ando/work/autoUt5/</url>
 	<organization>
-		<name>Ando Computer Behabir RandD</name>
+		<name>Ando Computer Behavior RandD</name>
 		<url>http://park.ruru.ne.jp/ando/work/index.html</url>
 	</organization>
 	<description>JUnit report include JavaDoc using JavaDoclet technology.</description>
