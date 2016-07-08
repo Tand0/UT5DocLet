@@ -123,8 +123,6 @@
 				<param name="-junit" value="target/junitDate" />
 				<param name="-findbugs" value="target/findbugsXml.xml" />
 			</doclet>
-		    <group title="Main TestCase" packages="jp.ruru.park.ando.ut5*"/>
-		    <group title="Findbugs Test" packages="findbugs*"/>
 			<doctitle>DOCLET: JUnit report include JavaDoc.</doctitle>
 			<footer>Copyright &#169; 2016 Ando Computer Behavior RandD. All Rights Reserved.</footer>
 		</javadoc>

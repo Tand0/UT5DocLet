@@ -191,7 +191,7 @@
 </source>
 
 
-<p>こちら、もう少し複雑書いた例にになります。<br />
+<p>こちら、もう少し複雑書いた例になります。<br />
 -junit フォルダは再帰的に見るので./target/junitDate/を見るようにしています。</p>
 
 <source>
@@ -239,7 +239,12 @@
 <section name="変更履歴">
 
 <dl>
-  <dt>Version.1.1.21 :</dt>
+  <dt>Version.1.1.13 :</dt>
+  <dd>
+   findbugsでmix表示したときにfindbugs側をjunitの出力より後ろにもっていくように修正。
+  </dd>
+
+  <dt>Version.1.1.12 :</dt>
   <dd>
    System.out.println()でデバッグメッセージが残っていたので削除。<br />
    ドキュメントの記述一部修正。

@@ -48,6 +48,15 @@ public class UT5Package implements Comparable<UT5Package> {
 	 */
 	@Override
 	public int compareTo(UT5Package o) {
+		boolean fromFlag = this.getName().indexOf(UT5GroupFactory.FINDBUGS_PACK) == 0;
+		boolean toFlag = o.getName().indexOf(UT5GroupFactory.FINDBUGS_PACK) == 0;
+		if (fromFlag != toFlag) {
+			if (fromFlag) {
+				return +1;
+			} else {
+				return -1;
+			}
+		}
 		return this.getName().compareTo(o.getName());
 	}
 	
