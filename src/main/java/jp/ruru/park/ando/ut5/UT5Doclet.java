@@ -1214,8 +1214,10 @@ public class UT5Doclet {
 					.newInstance()
 					.newDocumentBuilder()
 					.parse(file).getDocumentElement();
+			//
+			long timestamp = file.lastModified();
 			// create class
-			createFindBugs(rootDoc,rootElement,errorDoc,failurerDoc);
+			createFindBugs(rootDoc,rootElement,errorDoc,failurerDoc,timestamp);
 			//
 		} catch (DOMException | SAXException | IOException | ParserConfigurationException e) {
 			errorFlag = true;
@@ -1230,30 +1232,15 @@ public class UT5Doclet {
 	 * @param element element for findbugs.xml
 	 * @param errorDoc error target doc for JavaDoc
 	 * @param failurerDoc failure target doc for JavaDoc
+	 * @param timestamp timestamp
 	 */
-	protected void createFindBugs(RootDoc rootDoc,Element element,List<Doc> errorDoc,List<Doc> failurerDoc) {
-		String analysisTimestamp = element.getAttribute("analysisTimestamp");
+	protected void createFindBugs(RootDoc rootDoc,Element element,List<Doc> errorDoc,List<Doc> failurerDoc,long timestamp) {
 		//rootDoc.printError("createFindBugs() start tag=" + element.getTagName() + " ans=" + analysisTimestamp);
-		try {
-			if ((analysisTimestamp != null) && (!analysisTimestamp.equals(""))) {
-				long timestamp = Long.parseLong(analysisTimestamp);
-				if (this.groupFactory.getFindbugsTimestamp() < timestamp) {
-					this.groupFactory.setFindbugsTimestamp(timestamp);
-				}
-			}
-		} catch (NumberFormatException e) {
-			//EMPTY
+		if (this.groupFactory.getFindbugsTimestamp() < timestamp) {
+			this.groupFactory.setFindbugsTimestamp(timestamp);
 		}
-		String timeStampString = element.getAttribute("timestamp");
-		try {
-			if ((timeStampString != null) && (!timeStampString.equals(""))) {
-				long timestamp = Long.parseLong(timeStampString);
-				if (timestamp < this.groupFactory.getFindbugsOldTimestamp()) {
-					this.groupFactory.setFindbugsOldTimestamp(timestamp);
-				}
-			}
-		} catch (NumberFormatException e) {
-			//EMPTY
+		if (timestamp < this.groupFactory.getFindbugsOldTimestamp()) {
+			this.groupFactory.setFindbugsOldTimestamp(timestamp);
 		}
 		if (element.getTagName().equals("SourceLine")) {
 			String classname = element.getAttribute("classname");
@@ -1322,7 +1309,7 @@ public class UT5Doclet {
 		.mapToObj(nodeList::item)
 		.filter(e->e instanceof Element)
 		.map(e->(Element)e)
-		.forEach(e->createFindBugs(rootDoc,e,errorDoc,failurerDoc));
+		.forEach(e->createFindBugs(rootDoc,e,errorDoc,failurerDoc,timestamp));
 	}
 	
 	/** JUnit XML-*.xml location */

@@ -239,6 +239,11 @@
 <section name="変更履歴">
 
 <dl>
+  <dt>Version.1.1.14 :</dt>
+  <dd>
+   findbugsのxml内のtimestampがいまいち信用ならないのでxmlのファイルのタイムスタンプを使うように修正。
+  </dd>
+
   <dt>Version.1.1.13 :</dt>
   <dd>
    findbugsでmix表示したときにfindbugs側をjunitの出力より後ろにもっていくように修正。

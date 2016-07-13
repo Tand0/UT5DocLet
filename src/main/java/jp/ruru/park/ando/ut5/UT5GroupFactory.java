@@ -257,7 +257,7 @@ public class UT5GroupFactory {
 	}
 
 	/** find bugs time stamp */
-    private long findbugsTimestamp = Long.MIN_VALUE;
+    private long findbugsTimestamp = (new Date()).getTime();
     
     /** find bugs old time stamp */
     private long findbugsOldTimestamp = Long.MAX_VALUE;
