@@ -5,7 +5,7 @@
 	<artifactId>UT5DocLet</artifactId>
 	<version>1.1.14</version>
 	<properties>
-		<java.home>C:/Program Files/Java/jdk1.8.0_91</java.home>
+		<java.home>C:\Program Files\Java\jdk1.8.0_92</java.home>
 	</properties>
 	<build>
 		<plugins>
